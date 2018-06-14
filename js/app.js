@@ -10,7 +10,7 @@ var Enemy = function(x, y, speed) {
     // a helper we've provided to easily load images
     this.x = x;
     this.y = y;
-    this.speed = getRandomInt(100, 500);
+    this.speed = getRandomInt(100, 400);
     this.sprite = 'images/enemy-bug.png';
 };
 
@@ -50,17 +50,46 @@ class Player {
     this.x = x;
     this.y = y;
     this.sprite = 'images/char-pink-girl.png';
+
+    //console.log(this.x & " " & this.y);
+    console.log(x, y);
   }
   update() {
 
   }
 
   render() {
+    // only draw player if within bounds on screen
+    //if ((this.x > 0 && this.x < 505) && (this.y >= 0 && this.y <= 400)) {
+      //console.log(this.x, this.y);
       ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    //}
   }
 
-  handleInput() {
-
+  handleInput(direction) {
+    console.log(this.x, this.y);
+    switch(direction) {
+      case 'left':
+        if (this.x - 100 >= 0) {
+          this.x -= 100;
+        }
+        break;
+      case 'up':
+        if (this.y - 85 >= 0) {
+          this.y -= 85;
+        }
+        break;
+      case 'right':
+        if (this.x + 100 <= 400) {
+          this.x += 100;
+        }
+        break;
+      case 'down':
+        if (this.y + 85 <= 400) {
+          this.y += 85;
+        }
+        break;
+    }
   }
 };
 
@@ -71,7 +100,7 @@ class Player {
 // Place the player object in a variable called player
 
 player = new Player(200, 400);
-allEnemies = [new Enemy(0, 60), new Enemy(0, 145), new Enemy(0, 230)];
+allEnemies = [new Enemy(-100, 60), new Enemy(-100, 145), new Enemy(-100, 230)];
 
 
 
