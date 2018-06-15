@@ -144,7 +144,7 @@ var Engine = (function(global) {
         //ctx.textAlign = "center";
         //ctx.fillText("HUD", 35, 35);
         //ctx.fillText("HUD", 485, 35);
-        //ctx.drawImage(Resources.get('images/Heart.png'), 485, 35);
+
 
         renderEntities();
     }
@@ -162,6 +162,10 @@ var Engine = (function(global) {
         });
 
         player.render();
+
+        lives.forEach(function(life) {
+          life.render();
+        });
     }
 
     /* This function does nothing but it could have been a good place to
@@ -182,7 +186,7 @@ var Engine = (function(global) {
         'images/grass-block.png',
         'images/enemy-bug.png',
         'images/char-pink-girl.png',
-        'images/Heart.png'
+        'images/heart.png'
     ]);
     Resources.onReady(init);
 

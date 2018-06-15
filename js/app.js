@@ -1,7 +1,9 @@
 "use strict";
 
 let allEnemies = [];
+let lives = [];
 let player;
+let lifeCount = 3;
 
 // modal variables
 let modal = document.getElementById('myModal');
@@ -86,12 +88,26 @@ Player.prototype.handleInput = function(direction) {
       }
       break;
   }
-  console.log(this.x, this.y);
+  //console.log(this.x, this.y);
 };
+
+// Life object (heart) for HUD
+let Life = function(x, y) {
+    this.x = x;
+    this.y = y;
+    this.sprite = 'images/heart.png';
+};
+
+Life.prototype.render = function() {
+  ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 33.6, 56.6);
+}
+
 
 // Now instantiate your objects.
 player = new Player(200, 460);
 allEnemies = [new Enemy(-100, 120), new Enemy(-100, 205), new Enemy(-100, 290)];
+lives = [new Life(390, 0), new Life(425, 0), new Life(460,0)];
+
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method.
@@ -125,6 +141,21 @@ function checkCollisions(enemy) {
 function reset() {
   player.x = 200;
   player.y = 460;
+  lifeCount -= 1;
+  console.log(lifeCount);
+  switch(lifeCount) {
+    case 2:
+      delete lives[0];
+      break;
+    case 1:
+      delete lives[1];
+      break;
+    case 0:
+      delete lives[2];
+      gameOver();
+      break;
+  }
+  //delete lives[0];
 }
 
 function restartGame() {
@@ -133,7 +164,12 @@ function restartGame() {
 
 function gameOver() {
   modal.style.display = "block";
-  modalText.innerHTML = "You Won!";
+  if (lifeCount > 0) {
+    modalText.innerHTML = "You Won!";
+  } else {
+    modalText.innerHTML = "You Lost!";
+  }
+
 }
 
 // Modal functionality from https://www.w3schools.com/howto/howto_css_modals.asp

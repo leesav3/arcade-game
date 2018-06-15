@@ -16,6 +16,11 @@ button {
     cursor: pointer;
 }
 
+.heart {
+  width: 33.6px;
+  height: 56.6px;
+}
+
 /*
 * Styles for Modal panel
 */
