@@ -1,9 +1,25 @@
 Why Did the Chicken Cross the Road?
-===============================
+---
+**Why Did the Chicken Cross the Road?** is a variation of the classic Frogger game. This project was completed as part of the Udacity Front-End Nanodegree. Starter code and some assets were provided by Udacity.
 
-**Why Did the Chicken Cross the Road?** is a variation of the classic Frogger game. Use the arrow keys to move the chicken across the road. Watch out for vehicles!
-=====
-###Scoring
-You get 10 points for each move you make. You get  [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+---
+**How to Play**
+Use the arrow keys to move the chicken across the road. Watch out for vehicles!
+
+---
+**Setup**
+Clone the game and open index.html in your favorite browser or click [here](https://leesav3.github.io/arcade-game/) to play.
+
+---
+**Scoring**
+- +10 points for each move you make
+- -20 points for each collision
+- +50 points when you win the game
+
+---
+**Assets**
+- Game background provided by Udacity
+- Vehicles from www.unluckystudio.com
+- Chicken from www.pngtree.com
+- Beach background from www.clker.com
