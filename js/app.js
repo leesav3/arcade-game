@@ -75,17 +75,17 @@ Player.prototype.render = function() {
 
 // Move player based on keyboard input
 Player.prototype.handleInput = function(direction) {
-  score += 10;
-
   switch(direction) {
     case 'left':
       if (this.x - 100 >= 0) {
         this.x -= 100;
+        score += 10;
       }
       break;
     case 'up':
       if (this.y - 85 >= 0) {
         this.y -= 85;
+        score += 10;
         if (this.y <= 35) {
           // player made it to water! game won
           gameOver();
@@ -95,11 +95,13 @@ Player.prototype.handleInput = function(direction) {
     case 'right':
       if (this.x + 100 <= 460) {
         this.x += 100;
+        score += 10;
       }
       break;
     case 'down':
       if (this.y + 85 <= 460) {
         this.y += 85;
+        score += 10;
       }
       break;
   }
@@ -110,7 +112,7 @@ Player.prototype.handleInput = function(direction) {
 let Life = function(x, y) {
     this.x = x;
     this.y = y;
-    this.sprite = 'images/Heart.png';
+    this.sprite = 'images/heart.png';
 };
 
 

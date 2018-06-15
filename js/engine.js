@@ -183,7 +183,7 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/chicken.png',
-        'images/Heart.png',
+        'images/heart.png',
         'images/enemies/ambulance.png',
         'images/enemies/audi.png',
         'images/enemies/black_viper.png',
