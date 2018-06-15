@@ -1,3 +1,5 @@
+"use strict";
+
 let allEnemies = [];
 let player;
 
@@ -7,39 +9,28 @@ let span = document.getElementsByClassName("close")[0];
 let modalText = document.getElementById('modalText');
 
 // Enemies our player must avoid
-var Enemy = function(x, y, speed) {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
+let Enemy = function(x, y, width, height) {
     this.x = x;
     this.y = y;
+    // actual width is 100x100, but we are making it less sensitive to collisions
+    this.width = 80;
+    this.height = 80;
     this.speed = getRandomInt(100, 400);
     this.sprite = 'images/enemy-bug.png';
 };
 
-// function to get random speed between two integers from
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
-}
-
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
     this.x = this.x + this.speed * dt;
+
+    // check for collisions
+    checkCollisions(this);
 
     // if bug goes off screen, put it back!
     if (this.x > 505) {
       this.x -= 600;
     }
-
 };
 
 // Draw the enemy on the screen, required method for game
@@ -50,70 +41,60 @@ Enemy.prototype.render = function() {
 // Now write your own player class
 // This class requires an update(), render() and
 // a handleInput() method.
-class Player {
-  constructor(x, y) {
+let Player = function(x, y) {
+  //constructor(x, y) {
     this.x = x;
     this.y = y;
+    // actual width is 95x95, but we are making it less sensitive to collisions
+    this.width = 75;
+    this.height = 75;
     this.sprite = 'images/char-pink-girl.png';
+};
 
-    //console.log(this.x & " " & this.y);
-    console.log(x, y);
-  }
-  update() {
+Player.prototype.update = function() {
 
-  }
+};
 
-  render() {
-    // only draw player if within bounds on screen
-    //if ((this.x > 0 && this.x < 505) && (this.y >= 0 && this.y <= 400)) {
-      //console.log(this.x, this.y);
-      ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    //}
-  }
+Player.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
 
-  handleInput(direction) {
-    console.log(this.x, this.y);
-    switch(direction) {
-      case 'left':
-        if (this.x - 100 >= 0) {
-          this.x -= 100;
-        }
-        break;
-      case 'up':
-        if (this.y - 85 >= 0) {
-          this.y -= 85;
-        } else if (this.y - 85 < 0) {
+Player.prototype.handleInput = function(direction) {
+  switch(direction) {
+    case 'left':
+      if (this.x - 100 >= 0) {
+        this.x -= 100;
+      }
+      break;
+    case 'up':
+      if (this.y - 85 >= 0) {
+        this.y -= 85;
+        if (this.y <= 35) {
           // player made it to water! game won
           gameOver();
         }
-        break;
-      case 'right':
-        if (this.x + 100 <= 400) {
-          this.x += 100;
-        }
-        break;
-      case 'down':
-        if (this.y + 85 <= 400) {
-          this.y += 85;
-        }
-        break;
-    }
+      }
+      break;
+    case 'right':
+      if (this.x + 100 <= 460) {
+        this.x += 100;
+      }
+      break;
+    case 'down':
+      if (this.y + 85 <= 460) {
+        this.y += 85;
+      }
+      break;
   }
+  console.log(this.x, this.y);
 };
 
-
-
 // Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
-
-player = new Player(200, 400);
-allEnemies = [new Enemy(-100, 60), new Enemy(-100, 145), new Enemy(-100, 230)];
-
-
+player = new Player(200, 460);
+allEnemies = [new Enemy(-100, 120), new Enemy(-100, 205), new Enemy(-100, 290)];
 
 // This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+// Player.handleInput() method.
 document.addEventListener('keyup', function(e) {
     var allowedKeys = {
         37: 'left',
@@ -124,6 +105,27 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+// function to get random speed between two integers from
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+}
+
+function checkCollisions(enemy) {
+  if (enemy.x < player.x + player.width && enemy.x + enemy.width > player.x && enemy.y < player.y + player.height && enemy.height + enemy.y > player.y) {
+    // collision detected! reset player and enemies
+    console.log("collision!!!" + enemy.x, player.x + player.width);
+    reset();
+  }
+}
+
+function reset() {
+  player.x = 200;
+  player.y = 460;
+}
 
 function restartGame() {
   location.reload();

@@ -138,6 +138,14 @@ var Engine = (function(global) {
             }
         }
 
+        // add player HUD here
+        //ctx.font = "bold 16px Comfortaa";
+        //ctx.fillStyle = "red";
+        //ctx.textAlign = "center";
+        //ctx.fillText("HUD", 35, 35);
+        //ctx.fillText("HUD", 485, 35);
+        //ctx.drawImage(Resources.get('images/Heart.png'), 485, 35);
+
         renderEntities();
     }
 
@@ -173,7 +181,8 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug.png',
-        'images/char-pink-girl.png'
+        'images/char-pink-girl.png',
+        'images/Heart.png'
     ]);
     Resources.onReady(init);
 
