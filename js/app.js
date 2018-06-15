@@ -110,7 +110,7 @@ Player.prototype.handleInput = function(direction) {
 let Life = function(x, y) {
     this.x = x;
     this.y = y;
-    this.sprite = 'images/heart.png';
+    this.sprite = 'images/Heart.png';
 };
 
 
