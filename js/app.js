@@ -27,14 +27,13 @@ let imgLose = document.getElementById('imgLose');
 let Enemy = function(x, y, width, height) {
     this.x = x;
     this.y = y;
-    // actual width is 150x150, but we are making it less sensitive to collisions
-    this.width = 110;
+    // actual width is 153.6x66, but we are making it less sensitive to collisions
+    this.width = 125;
     this.height = 60;
     this.speed = getRandomInt(100, 400);
-    //this.sprite = 'images/enemy-bug.png';
-    //this.sprite = cars[Math.floor(Math.random() * cars.length)];
     this.sprite = randomCar(cars);
 };
+
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -44,22 +43,21 @@ Enemy.prototype.update = function(dt) {
     // check for collisions
     checkCollisions(this);
 
-    // if bug goes off screen, put it back!
+    // if car (enemy) goes off screen, put it back!
     if (this.x > 505) {
       this.x -= 600;
     }
 };
+
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 153.6, 66);
 };
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
+
+// Player class
 let Player = function(x, y) {
-  //constructor(x, y) {
     this.x = x;
     this.y = y;
     // actual width is 73.4x108, but we are making it less sensitive to collisions
@@ -68,16 +66,14 @@ let Player = function(x, y) {
     this.sprite = 'images/chicken.png';
 };
 
-Player.prototype.update = function() {
 
-};
-
+// Draw player on the screen
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 73.4, 108);
-
-
 };
 
+
+// Move player based on keyboard input
 Player.prototype.handleInput = function(direction) {
   score += 10;
 
@@ -109,6 +105,7 @@ Player.prototype.handleInput = function(direction) {
   }
 };
 
+
 // Life object (heart) for HUD
 let Life = function(x, y) {
     this.x = x;
@@ -116,6 +113,8 @@ let Life = function(x, y) {
     this.sprite = 'images/heart.png';
 };
 
+
+// render lives on screen (HUD)
 Life.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 33.6, 56.6);
 }
@@ -140,6 +139,7 @@ document.addEventListener('keyup', function(e) {
     player.handleInput(allowedKeys[e.keyCode]);
 });
 
+
 // function to get random speed between two integers from
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
 function getRandomInt(min, max) {
@@ -148,10 +148,12 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
+
 // function to get random vehicle image
 function randomCar(imageArray) {
    return imageArray[Math.floor(Math.random() * imageArray.length)];
 }
+
 
 function checkCollisions(enemy) {
   if (enemy.x < player.x + player.width && enemy.x + enemy.width > player.x && enemy.y < player.y + player.height && enemy.height + enemy.y > player.y) {
@@ -161,6 +163,8 @@ function checkCollisions(enemy) {
   }
 }
 
+
+// function to reset player to start position and decrement score and lives after collision
 function reset() {
   score -= 20;
   player.x = 215;
@@ -179,13 +183,15 @@ function reset() {
       gameOver();
       break;
   }
-  //delete lives[0];
 }
+
 
 function restartGame() {
   location.reload();
 }
 
+
+// function to display modal screen when player wins or loses
 function gameOver() {
   modal.style.display = "block";
   if (lifeCount > 0) {
@@ -204,6 +210,7 @@ function gameOver() {
 span.onclick = function() {
     modal.style.display = "none";
 }
+
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
