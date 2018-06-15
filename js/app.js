@@ -4,21 +4,36 @@ let allEnemies = [];
 let lives = [];
 let player;
 let lifeCount = 3;
+let score = 0;
+
+let cars = ['images/enemies/ambulance.png',
+            'images/enemies/audi.png',
+            'images/enemies/black_viper.png',
+            'images/enemies/car.png',
+            'images/enemies/mini_truck.png',
+            'images/enemies/mini_van.png',
+            'images/enemies/police.png',
+            'images/enemies/taxi.png',
+            'images/enemies/truck.png'];
 
 // modal variables
 let modal = document.getElementById('myModal');
 let span = document.getElementsByClassName("close")[0];
 let modalText = document.getElementById('modalText');
+let imgWin = document.getElementById('imgWin');
+let imgLose = document.getElementById('imgLose');
 
 // Enemies our player must avoid
 let Enemy = function(x, y, width, height) {
     this.x = x;
     this.y = y;
-    // actual width is 100x100, but we are making it less sensitive to collisions
-    this.width = 80;
-    this.height = 80;
+    // actual width is 150x150, but we are making it less sensitive to collisions
+    this.width = 110;
+    this.height = 60;
     this.speed = getRandomInt(100, 400);
-    this.sprite = 'images/enemy-bug.png';
+    //this.sprite = 'images/enemy-bug.png';
+    //this.sprite = cars[Math.floor(Math.random() * cars.length)];
+    this.sprite = randomCar(cars);
 };
 
 // Update the enemy's position, required method for game
@@ -37,7 +52,7 @@ Enemy.prototype.update = function(dt) {
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 153.6, 66);
 };
 
 // Now write your own player class
@@ -47,10 +62,10 @@ let Player = function(x, y) {
   //constructor(x, y) {
     this.x = x;
     this.y = y;
-    // actual width is 95x95, but we are making it less sensitive to collisions
+    // actual width is 73.4x108, but we are making it less sensitive to collisions
     this.width = 75;
     this.height = 75;
-    this.sprite = 'images/char-pink-girl.png';
+    this.sprite = 'images/chicken.png';
 };
 
 Player.prototype.update = function() {
@@ -58,10 +73,14 @@ Player.prototype.update = function() {
 };
 
 Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y, 73.4, 108);
+
+
 };
 
 Player.prototype.handleInput = function(direction) {
+  score += 10;
+
   switch(direction) {
     case 'left':
       if (this.x - 100 >= 0) {
@@ -88,7 +107,6 @@ Player.prototype.handleInput = function(direction) {
       }
       break;
   }
-  //console.log(this.x, this.y);
 };
 
 // Life object (heart) for HUD
@@ -104,8 +122,8 @@ Life.prototype.render = function() {
 
 
 // Now instantiate your objects.
-player = new Player(200, 460);
-allEnemies = [new Enemy(-100, 120), new Enemy(-100, 205), new Enemy(-100, 290)];
+player = new Player(215, 460);
+allEnemies = [new Enemy(-100, 140), new Enemy(-100, 225), new Enemy(-100, 305)];
 lives = [new Life(390, 0), new Life(425, 0), new Life(460,0)];
 
 
@@ -130,6 +148,11 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
+// function to get random vehicle image
+function randomCar(imageArray) {
+   return imageArray[Math.floor(Math.random() * imageArray.length)];
+}
+
 function checkCollisions(enemy) {
   if (enemy.x < player.x + player.width && enemy.x + enemy.width > player.x && enemy.y < player.y + player.height && enemy.height + enemy.y > player.y) {
     // collision detected! reset player and enemies
@@ -139,7 +162,8 @@ function checkCollisions(enemy) {
 }
 
 function reset() {
-  player.x = 200;
+  score -= 20;
+  player.x = 215;
   player.y = 460;
   lifeCount -= 1;
   console.log(lifeCount);
@@ -165,9 +189,12 @@ function restartGame() {
 function gameOver() {
   modal.style.display = "block";
   if (lifeCount > 0) {
-    modalText.innerHTML = "You Won!";
+    score += 50;
+    modalText.innerHTML = "<h3>You Won! Final Score: " + score + "</h3><br>Q: Why did the chicken cross the road??<br><br>A: To get to the beach!";
+    imgWin.style.display = "block";
   } else {
-    modalText.innerHTML = "You Lost!";
+    modalText.innerHTML = "<h3>You Lost! Final Score: " + score + "</h3><br>Play again to find the answer to the age old question:<br><br>Why did the chicken cross the road?";
+    imgLose.style.display = "block";
   }
 
 }

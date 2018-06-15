@@ -138,14 +138,6 @@ var Engine = (function(global) {
             }
         }
 
-        // add player HUD here
-        //ctx.font = "bold 16px Comfortaa";
-        //ctx.fillStyle = "red";
-        //ctx.textAlign = "center";
-        //ctx.fillText("HUD", 35, 35);
-        //ctx.fillText("HUD", 485, 35);
-
-
         renderEntities();
     }
 
@@ -166,6 +158,12 @@ var Engine = (function(global) {
         lives.forEach(function(life) {
           life.render();
         });
+
+        // also render score section of HUD here
+        // draw score section
+        ctx.font = "20px Comfortaa";
+        ctx.fillStyle = "black";
+        ctx.fillText("Score: " + score, 10, 40);
     }
 
     /* This function does nothing but it could have been a good place to
@@ -184,9 +182,17 @@ var Engine = (function(global) {
         'images/stone-block.png',
         'images/water-block.png',
         'images/grass-block.png',
-        'images/enemy-bug.png',
-        'images/char-pink-girl.png',
-        'images/heart.png'
+        'images/chicken.png',
+        'images/heart.png',
+        'images/enemies/ambulance.png',
+        'images/enemies/audi.png',
+        'images/enemies/black_viper.png',
+        'images/enemies/car.png',
+        'images/enemies/mini_truck.png',
+        'images/enemies/mini_van.png',
+        'images/enemies/police.png',
+        'images/enemies/taxi.png',
+        'images/enemies/truck.png'
     ]);
     Resources.onReady(init);
 
