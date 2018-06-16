@@ -13,7 +13,7 @@ Clone the game and open index.html in your favorite browser or click [here](http
 
 ---
 **Scoring**
-- +10 points for each move you make
+- +10 points for each forward move you make
 - -20 points for each collision
 - +50 points when you win the game
 
